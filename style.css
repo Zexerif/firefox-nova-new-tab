@@ -1,0 +1,979 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+    /* Firefox Native Base Colors */
+    --fx-bg-base: #2b2a33;
+    --fx-surface: #42414d;
+    --fx-surface-solid: #42414d;
+    --fx-surface-hover: #52525e;
+    --fx-text-primary: #fbfbfe;
+    --fx-text-secondary: #cfcfd8;
+    
+    /* True Firefox Blue for toggles only */
+    --theme-accent: #0060df;
+    /* Neutral White/Grey for the ambient glow toggle */
+    --theme-glow-1: rgba(255, 255, 255, 0.03);
+    --theme-glow-2: rgba(255, 255, 255, 0.01);
+    
+    --glass-border: rgba(255, 255, 255, 0.05);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', -apple-system, sans-serif;
+}
+
+body {
+    background-color: var(--fx-bg-base);
+    color: var(--fx-text-primary);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Premium Subtle Ambient Glow */
+.background-ambient {
+    display: block;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(circle at 50% 30%, var(--theme-glow-1) 0%, transparent 50%),
+                radial-gradient(circle at 50% 70%, var(--theme-glow-2) 0%, transparent 50%);
+    z-index: -1;
+    filter: blur(60px);
+    animation: pulseGlow 10s ease-in-out infinite alternate;
+}
+
+@keyframes pulseGlow {
+    0% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+}
+
+/* Layout */
+.top-bar {
+    display: flex;
+    justify-content: flex-end;
+    padding: 24px 32px;
+    height: 10vh;
+}
+
+.center-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    gap: 40px;
+}
+
+.bottom-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 32px;
+    height: 10vh;
+}
+
+/* Widgets */
+.weather-widget {
+    background: var(--fx-surface);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    padding: 8px 16px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    box-shadow: var(--glass-shadow);
+    transition: transform 0.3s;
+}
+
+.weather-widget:hover {
+    transform: translateY(-2px);
+}
+
+.time-container {
+    text-align: center;
+    animation: fadeInUp 1s ease-out;
+}
+
+.clock-text {
+    font-size: 6rem;
+    font-weight: 600;
+    letter-spacing: -2px;
+    margin-bottom: 8px;
+    color: var(--fx-text-primary);
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.greeting-text {
+    font-size: 1.25rem;
+    font-weight: 300;
+    color: var(--fx-text-secondary);
+}
+
+/* Search Bar (Premium Native Style) */
+.search-container {
+    width: 100%;
+    max-width: 560px;
+    animation: fadeInUp 1s ease-out 0.2s both;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background: var(--fx-surface-solid);
+    border-radius: 24px;
+    padding: 0 20px;
+    height: 52px;
+    box-shadow: var(--glass-shadow);
+    border: 1px solid transparent;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.search-bar:focus-within {
+    background: var(--fx-bg-base);
+    border-color: var(--fx-surface-hover);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.search-icon {
+    color: var(--fx-text-secondary);
+    display: flex;
+    align-items: center;
+    margin-right: 12px;
+    transition: color 0.3s;
+}
+
+.search-bar:focus-within .search-icon {
+    color: var(--fx-text-primary);
+}
+
+#search-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--fx-text-primary);
+    font-size: 1.1rem;
+    height: 100%;
+}
+
+#search-input::placeholder {
+    color: var(--fx-text-secondary);
+}
+
+/* Shortcuts */
+.shortcuts-container {
+    display: flex;
+    gap: 32px;
+    margin-top: 8px;
+    animation: fadeInUp 1s ease-out 0.4s both;
+}
+
+.shortcut-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    text-decoration: none;
+    color: var(--fx-text-primary);
+    width: 80px;
+    group: shortcut;
+}
+
+.shortcut-icon {
+    width: 56px;
+    height: 56px;
+    background: var(--fx-surface);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 12px;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.shortcut-letter-icon {
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--fx-text-primary);
+    text-transform: uppercase;
+}
+
+.shortcut-card:hover .shortcut-icon {
+    background: var(--fx-surface-hover);
+    transform: translateY(-4px);
+    border-color: transparent;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    color: var(--fx-text-primary);
+}
+
+.shortcut-label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--fx-text-secondary);
+    transition: color 0.3s;
+}
+
+.shortcut-card:hover .shortcut-label {
+    color: var(--fx-text-primary);
+}
+
+/* Focus Input */
+.focus-widget {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    animation: fadeIn 1s ease-out 0.6s both;
+}
+
+.focus-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--theme-accent);
+    text-transform: uppercase;
+}
+
+#focus-input {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    outline: none;
+    color: var(--fx-text-secondary);
+    font-size: 1rem;
+    padding: 6px 0;
+    width: 250px;
+    transition: all 0.3s;
+}
+
+#focus-input:focus {
+    border-color: var(--theme-accent);
+    color: var(--fx-text-primary);
+}
+
+/* Settings Button */
+.icon-btn {
+    background: var(--fx-surface);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    color: var(--fx-text-secondary);
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 50%;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 1s ease-out 0.6s both;
+}
+
+.icon-btn:hover {
+    background: var(--fx-surface-solid);
+    color: var(--fx-text-primary);
+    transform: rotate(90deg);
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Settings Panel */
+.settings-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    z-index: 99;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+.settings-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.settings-panel {
+    position: fixed;
+    top: 0;
+    right: -400px;
+    width: 360px;
+    height: 100vh;
+    background: var(--fx-bg-base);
+    border-left: 1px solid var(--glass-border);
+    z-index: 100;
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: -10px 0 30px rgba(0,0,0,0.3);
+}
+
+.settings-panel.active {
+    right: 0;
+}
+
+.settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--fx-surface-solid);
+    padding-bottom: 16px;
+    margin-bottom: 8px;
+}
+
+.settings-header h2 {
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.settings-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 6px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--fx-surface-solid) transparent;
+}
+
+.settings-content::-webkit-scrollbar {
+    width: 6px;
+}
+.settings-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+.settings-content::-webkit-scrollbar-thumb {
+    background: var(--fx-surface-solid);
+    border-radius: 3px;
+}
+.settings-content::-webkit-scrollbar-thumb:hover {
+    background: var(--fx-surface-hover);
+}
+
+.setting-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.setting-group label {
+    font-size: 0.85rem;
+    color: var(--fx-text-secondary);
+    font-weight: 500;
+}
+
+.settings-input {
+    background: var(--fx-surface);
+    border: 1px solid transparent;
+    color: var(--fx-text-primary);
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.settings-input:focus {
+    background: var(--fx-bg-base);
+    border-color: var(--theme-accent);
+}
+
+/* Toggle Switch */
+.toggle-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.toggle-label input {
+    display: none;
+}
+
+.toggle-switch {
+    width: 44px;
+    height: 24px;
+    background: var(--fx-surface-solid);
+    border-radius: 12px;
+    position: relative;
+    transition: background 0.3s;
+}
+
+.toggle-switch::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.toggle-label input:checked + .toggle-switch {
+    background: var(--theme-accent);
+}
+
+.toggle-label input:checked + .toggle-switch::after {
+    transform: translateX(20px);
+}
+
+/* Custom styled selects */
+select.settings-input {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23cfcfd8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    padding-right: 36px;
+    cursor: pointer;
+}
+
+/* Shortcuts Manager in Settings */
+.settings-shortcuts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 150px;
+    overflow-y: auto;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    padding: 8px;
+    border: 1px solid var(--glass-border);
+}
+
+.settings-shortcut-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--fx-surface);
+    padding: 8px 10px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    border: 1px solid var(--glass-border);
+}
+
+.settings-shortcut-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    overflow: hidden;
+}
+
+.settings-shortcut-name {
+    font-weight: 500;
+    color: var(--fx-text-primary);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.settings-shortcut-url {
+    font-size: 0.75rem;
+    color: var(--fx-text-secondary);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 200px;
+}
+
+.delete-shortcut-btn {
+    background: transparent;
+    border: none;
+    color: var(--fx-text-secondary);
+    cursor: pointer;
+    font-size: 1.2rem;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.delete-shortcut-btn:hover {
+    background: rgba(235, 78, 78, 0.15);
+    color: #eb4e4e;
+}
+
+.add-shortcut-form {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.01);
+    border: 1px dashed var(--glass-border);
+    border-radius: 8px;
+}
+
+.settings-subtitle {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--fx-text-primary);
+    margin-bottom: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.settings-btn {
+    background: var(--theme-accent);
+    color: #fff;
+    border: none;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+    text-align: center;
+}
+
+.settings-btn:hover {
+    background: #0050bc;
+}
+
+/* =====================================================
+   SVG BLACK CAT — FIXED FIREFOX TRANSFORMS
+   ===================================================== */
+
+.walking-animal {
+    position: fixed;
+    bottom: 20px;
+    left: 0;
+    width: 80px;
+    height: 80px;
+    z-index: 50;
+    pointer-events: none;
+    filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.15));
+}
+
+.animal-svg {
+    overflow: visible;
+}
+
+/*
+ * CRITICAL FIX: Removed transform-box: fill-box as it causes severe glitching in Firefox 
+ * when combined with d-path morphing. We use exact absolute pixel coordinates for transform-origins instead.
+ */
+.svg-body,
+.svg-tail,
+.svg-head-group,
+.svg-leg,
+.svg-ear,
+.svg-eye,
+.svg-pupil,
+.svg-head {
+    transition: d 0.3s ease, transform 0.3s ease, opacity 0.3s ease, r 0.3s ease, fill 0.3s ease;
+}
+
+/* Anchor the head group so it pivots on its centre */
+.svg-head-group {
+    transform-origin: 75px 45px;
+}
+
+/* Ears pivot from their absolute base coordinates */
+.svg-ear.left {
+    transform-origin: 69px 38px;
+}
+.svg-ear.right {
+    transform-origin: 81px 38px;
+}
+
+/* Fox-specific transform origins */
+#fox-svg .svg-head-group {
+    transform-origin: 75px 52px;
+}
+#fox-svg .svg-ear.left {
+    transform-origin: 72px 45px;
+}
+#fox-svg .svg-ear.right {
+    transform-origin: 78px 45px;
+}
+
+/* === WALKING ANIMATIONS === */
+@keyframes svgWalkFrontLeg {
+    0%   { d: path('M 65 65 Q 63 75 70 85'); }
+    50%  { d: path('M 65 65 Q 60 75 57 85'); }
+    75%  { d: path('M 65 65 Q 60 72 65 78'); }
+    100% { d: path('M 65 65 Q 63 75 70 85'); }
+}
+@keyframes svgWalkFrontLegBack {
+    0%   { d: path('M 60 65 Q 58 75 65 85'); }
+    50%  { d: path('M 60 65 Q 55 75 52 85'); }
+    75%  { d: path('M 60 65 Q 55 72 60 78'); }
+    100% { d: path('M 60 65 Q 58 75 65 85'); }
+}
+@keyframes svgWalkBackLeg {
+    0%   { d: path('M 35 65 Q 32 75 40 85'); }
+    50%  { d: path('M 35 65 Q 30 75 27 85'); }
+    75%  { d: path('M 35 65 Q 30 72 35 78'); }
+    100% { d: path('M 35 65 Q 32 75 40 85'); }
+}
+@keyframes svgWalkBackLegFront {
+    0%   { d: path('M 40 65 Q 37 75 45 85'); }
+    50%  { d: path('M 40 65 Q 35 75 32 85'); }
+    75%  { d: path('M 40 65 Q 35 72 40 78'); }
+    100% { d: path('M 40 65 Q 37 75 45 85'); }
+}
+@keyframes svgTailWag {
+    0%, 100% { d: path('M 35 60 C 15 50, 15 20, 25 15'); }
+    50%       { d: path('M 35 60 C 20 55, 30 30, 25 15'); }
+}
+@keyframes svgTailTwitch {
+    0%, 100% { d: path('M 35 60 C 15 50, 15 20, 25 15'); }
+    50%       { d: path('M 35 60 C 5 50, 5 20, 15 15'); }
+}
+@keyframes svgBodyBounce {
+    0%   { transform: translateY(0px); }
+    100% { transform: translateY(-2px); }
+}
+
+/* === BASE WALKING STATE === */
+.walking-animal .svg-tail          { animation: svgTailWag 3s infinite ease-in-out; }
+.walking-animal .svg-leg.front-leg { animation: svgWalkFrontLeg 0.6s infinite linear; }
+.walking-animal .svg-leg.back-leg-front { animation: svgWalkBackLegFront 0.6s infinite linear; }
+.walking-animal .svg-leg.back-leg       { animation: svgWalkBackLeg 0.6s infinite linear; animation-delay: -0.3s; }
+.walking-animal .svg-leg.front-leg-back { animation: svgWalkFrontLegBack 0.6s infinite linear; animation-delay: -0.3s; }
+.walking-animal .animal-svg { animation: svgBodyBounce 0.3s infinite alternate ease-in-out; }
+
+/* === FOX WALKING ANIMATIONS === */
+@keyframes foxWalkFrontLeg {
+    0%   { d: path('M 65 72 Q 63 78.5 70 85'); }
+    50%  { d: path('M 65 72 Q 60 78.5 57 85'); }
+    75%  { d: path('M 65 72 Q 60 75.5 65 81'); }
+    100% { d: path('M 65 72 Q 63 78.5 70 85'); }
+}
+@keyframes foxWalkFrontLegBack {
+    0%   { d: path('M 60 72 Q 58 78.5 65 85'); }
+    50%  { d: path('M 60 72 Q 55 78.5 52 85'); }
+    75%  { d: path('M 60 72 Q 55 75.5 60 81'); }
+    100% { d: path('M 60 72 Q 58 78.5 65 85'); }
+}
+@keyframes foxWalkBackLeg {
+    0%   { d: path('M 35 72 Q 32 78.5 40 85'); }
+    50%  { d: path('M 35 72 Q 30 78.5 27 85'); }
+    75%  { d: path('M 35 72 Q 30 75.5 35 81'); }
+    100% { d: path('M 35 72 Q 32 78.5 40 85'); }
+}
+@keyframes foxWalkBackLegFront {
+    0%   { d: path('M 40 72 Q 37 78.5 45 85'); }
+    50%  { d: path('M 40 72 Q 35 78.5 32 85'); }
+    75%  { d: path('M 40 72 Q 35 75.5 40 81'); }
+    100% { d: path('M 40 72 Q 37 78.5 45 85'); }
+}
+
+/* Apply Fox Walk Animations */
+.walking-animal:not(.state-idle):not(.state-loaf):not(.state-spotted):not(.state-pouncing) #fox-svg .svg-leg.front-leg      { animation: foxWalkFrontLeg 0.6s infinite linear; }
+.walking-animal:not(.state-idle):not(.state-loaf):not(.state-spotted):not(.state-pouncing) #fox-svg .svg-leg.back-leg-front { animation: foxWalkBackLegFront 0.6s infinite linear; }
+.walking-animal:not(.state-idle):not(.state-loaf):not(.state-spotted):not(.state-pouncing) #fox-svg .svg-leg.back-leg       { animation: foxWalkBackLeg 0.6s infinite linear; animation-delay: -0.3s; }
+.walking-animal:not(.state-idle):not(.state-loaf):not(.state-spotted):not(.state-pouncing) #fox-svg .svg-leg.front-leg-back { animation: foxWalkFrontLegBack 0.6s infinite linear; animation-delay: -0.3s; }
+
+/* Dog Walk Tail Wag Override */
+@keyframes dogTailWagWalk {
+    0%, 100% { d: path('M 35 55 Q 20 40, 15 25'); }
+    50%       { d: path('M 35 55 Q 22 45, 25 35'); }
+}
+.walking-animal:not(.state-idle):not(.state-sniffing):not(.state-spotted):not(.state-chasing):not(.state-post-chase-idle) #dog-svg .svg-tail {
+    animation: dogTailWagWalk 0.5s infinite ease-in-out;
+}
+
+/* Dog Walk Legs Speed Sync */
+.walking-animal:not(.state-idle):not(.state-sniffing):not(.state-spotted):not(.state-chasing):not(.state-post-chase-idle) #dog-svg .svg-leg.front-leg      { animation: svgWalkFrontLeg 0.5s infinite linear; }
+.walking-animal:not(.state-idle):not(.state-sniffing):not(.state-spotted):not(.state-chasing):not(.state-post-chase-idle) #dog-svg .svg-leg.back-leg-front { animation: svgWalkBackLegFront 0.5s infinite linear; }
+.walking-animal:not(.state-idle):not(.state-sniffing):not(.state-spotted):not(.state-chasing):not(.state-post-chase-idle) #dog-svg .svg-leg.back-leg       { animation: svgWalkBackLeg 0.5s infinite linear; animation-delay: -0.25s; }
+.walking-animal:not(.state-idle):not(.state-sniffing):not(.state-spotted):not(.state-chasing):not(.state-post-chase-idle) #dog-svg .svg-leg.front-leg-back { animation: svgWalkFrontLegBack 0.5s infinite linear; animation-delay: -0.25s; }
+
+/* === IDLE STATE === */
+.walking-animal.state-idle .svg-leg  { animation: none; }
+.walking-animal.state-idle .animal-svg  { animation: none; }
+
+/* === LOAF STATE === */
+.walking-animal.state-loaf .svg-leg {
+    opacity: 0;
+    transition: d 0.5s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease 0.2s;
+    animation: none;
+}
+.walking-animal.state-loaf .svg-leg.back-leg       { d: path('M 35 70 Q 32 80 38 82'); }
+.walking-animal.state-loaf .svg-leg.front-leg-back { d: path('M 60 70 Q 58 80 62 82'); }
+.walking-animal.state-loaf .svg-leg.front-leg      { d: path('M 65 70 Q 62 80 64 82'); }
+.walking-animal.state-loaf .svg-leg.back-leg-front { d: path('M 40 70 Q 38 80 42 82'); }
+
+.walking-animal.state-loaf .animal-svg         { animation: none; }
+.walking-animal.state-loaf .svg-body        { d: path('M 35 82 L 72 82 C 80 82, 80 65, 72 65 Q 52 58 35 68 C 28 72, 28 82, 35 82 Z'); }
+.walking-animal.state-loaf .svg-tail        { d: path('M 35 78 Q 28 80 25 74 Q 24 66 32 68'); animation: none; }
+.walking-animal.state-loaf .svg-head-group  { transform: translateY(12px); }
+
+/* Fox Loaf Overrides */
+.walking-animal.state-loaf #fox-svg .svg-body {
+    d: path('M 35 84 L 72 84 C 80 84, 80 67, 72 67 Q 52 60 35 70 C 28 74, 28 84, 35 84 Z');
+}
+.walking-animal.state-loaf #fox-svg .svg-tail {
+    d: path('M 35 82 Q 28 84 25 78 Q 24 70 32 72');
+}
+.walking-animal.state-loaf #fox-svg .svg-head-group {
+    transform: translateY(7px);
+}
+
+/* === SPOTTED STATE ===
+ * KEY FIX: Eyes stay YELLOW (#f1c40f) so they're visible against the black head.
+ * We only grow the eye slightly and make the pupil HUGE to show wide-eyed terror/excitement.
+ * We do NOT change the eye fill to dark.
+ */
+.walking-animal.state-spotted .svg-leg             { animation: none; }
+.walking-animal.state-spotted .animal-svg             { animation: none; }
+.walking-animal.state-spotted .svg-body            { d: path('M 35 75 L 68 75 C 83 75, 83 50, 68 50 L 35 50 C 20 50, 20 75, 35 75 Z'); }
+.walking-animal.state-spotted .svg-head-group      { transform: translateY(6px); }
+
+/* Fox Spotted Overrides */
+.walking-animal.state-spotted #fox-svg .svg-body {
+    d: path('M 35 80 L 68 80 C 83 80, 83 55, 68 55 L 35 55 C 20 55, 20 80, 35 80 Z');
+}
+.walking-animal.state-spotted #fox-svg .svg-head-group {
+    transform: translateY(4px);
+}
+
+/* Ears perk forward with fill-box origin — they'll rotate around their own base correctly */
+.walking-animal.state-spotted .svg-ear.left        { transform: rotate(-15deg); }
+.walking-animal.state-spotted .svg-ear.right       { transform: rotate(15deg); }
+
+.walking-animal.state-spotted .svg-tail            { animation: svgTailTwitch 0.25s infinite ease-in-out; }
+
+/* === POUNCING STATE ===
+ * Full body overhaul so she looks like she's actually mid-leap in the air:
+ * - Body stretches into a slim horizontal torpedo shape
+ * - Tail flies straight out behind her
+ * - Head shifts forward and slightly up
+ * - Front legs reach forward, back legs push straight back
+ */
+.walking-animal.state-pouncing .svg-leg            { animation: none; }
+.walking-animal.state-pouncing .animal-svg            { animation: none; }
+
+/* Streamlined horizontal body — bullet-like leap dynamic */
+.walking-animal.state-pouncing .svg-body {
+    d: path('M 32 62 L 72 56 C 82 54, 82 44, 72 46 L 32 52 C 22 54, 22 60, 32 62 Z');
+}
+
+/* Elegant trailing tail with a gentle wave */
+.walking-animal.state-pouncing .svg-tail {
+    d: path('M 28 55 Q 15 54 5 47');
+    animation: none;
+}
+
+/* Head lunges forward and aligns with the leap axis */
+.walking-animal.state-pouncing .svg-head-group {
+    transform: translate(6px, -4px);
+}
+
+/* Front legs reaching forward horizontally */
+.walking-animal.state-pouncing .svg-leg.front-leg {
+    d: path('M 68 56 Q 80 54 90 56');
+}
+.walking-animal.state-pouncing .svg-leg.front-leg-back {
+    d: path('M 64 58 Q 76 58 84 62');
+}
+
+/* Back legs extending straight back horizontally */
+.walking-animal.state-pouncing .svg-leg.back-leg {
+    d: path('M 36 58 Q 24 60 12 60');
+}
+.walking-animal.state-pouncing .svg-leg.back-leg-front {
+    d: path('M 32 56 Q 20 54 10 50');
+}
+
+/* Fox Pouncing Overrides */
+.walking-animal.state-pouncing #fox-svg .svg-body {
+    d: path('M 32 66 L 72 60 C 82 58, 82 48, 72 50 L 32 56 C 22 58, 22 64, 32 66 Z');
+}
+.walking-animal.state-pouncing #fox-svg .svg-tail {
+    d: path('M 28 61 Q 15 60 5 53');
+}
+.walking-animal.state-pouncing #fox-svg .svg-head-group {
+    transform: translate(6px, 1px);
+}
+.walking-animal.state-pouncing #fox-svg .svg-leg.front-leg {
+    d: path('M 68 60 Q 76 59 83 60');
+}
+.walking-animal.state-pouncing #fox-svg .svg-leg.front-leg-back {
+    d: path('M 64 61 Q 72 61 79 63');
+}
+.walking-animal.state-pouncing #fox-svg .svg-leg.back-leg {
+    d: path('M 36 61 Q 28 62 20 62');
+}
+.walking-animal.state-pouncing #fox-svg .svg-leg.back-leg-front {
+    d: path('M 32 60 Q 24 59 17 57');
+}
+
+/* === MOUSE === */
+.mouse {
+    position: fixed;
+    bottom: 20px;
+    width: 12px;
+    height: 8px;
+    background: #888;
+    border-radius: 10px 15px 15px 10px;
+    z-index: 40;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    filter: drop-shadow(0 0 2px rgba(0,0,0,0.5));
+}
+.mouse::after {
+    content: '';
+    position: absolute;
+    right: -8px;
+    top: 3px;
+    width: 10px;
+    height: 2px;
+    background: #888;
+    border-radius: 2px;
+}
+.mouse.hidden { opacity: 0; }
+.mouse.facing-left { transform: scaleX(-1); }
+
+/* Squirrel Overrides */
+.mouse.squirrel {
+    width: 18px;
+    height: 12px;
+    background: #b85d18;
+    border-radius: 8px 12px 12px 8px;
+}
+.mouse.squirrel::before {
+    content: '';
+    position: absolute;
+    right: -4px;
+    top: -2px;
+    width: 10px;
+    height: 10px;
+    background: #b85d18;
+    border-radius: 50% 50% 0 50%;
+    box-shadow: 2px -4px 0 -3px #b85d18;
+}
+.mouse.squirrel::after {
+    content: '';
+    position: absolute;
+    left: -8px;
+    bottom: 0px;
+    right: auto;
+    top: auto;
+    width: 14px;
+    height: 18px;
+    background: #d46a18;
+    border-radius: 12px 12px 0 12px;
+    transform: rotate(-15deg);
+    transform-origin: bottom right;
+}
+
+/* =====================================================
+   CANINE (DOG) ANIMATIONS & STATES
+   ===================================================== */
+
+/* Sniffing State */
+.walking-animal.state-sniffing .svg-leg {
+    animation: none;
+}
+.walking-animal.state-sniffing #dog-svg .svg-body {
+    d: path('M 38 72 L 68 74 C 78 74, 82 54, 68 52 L 38 45 C 25 45, 25 72, 38 72 Z');
+}
+@keyframes dogSniffHeadBob {
+    0%, 100% { transform: translate(6px, 14px) rotate(22deg); }
+    50%      { transform: translate(8px, 16px) rotate(28deg); }
+}
+.walking-animal.state-sniffing #dog-svg .svg-head-group {
+    animation: dogSniffHeadBob 0.35s infinite ease-in-out;
+}
+@keyframes dogTailWagSniff {
+    0%, 100% { d: path('M 35 55 Q 20 40, 15 25'); }
+    50%       { d: path('M 35 55 Q 16 48, 12 36'); }
+}
+.walking-animal.state-sniffing .dog-tail {
+    animation: dogTailWagSniff 0.15s infinite ease-in-out;
+}
+
+/* Spotted State */
+.walking-animal.state-spotted #dog-svg .svg-tail {
+    animation: dogTailWagSniff 0.2s infinite ease-in-out;
+}
+
+/* Chasing State (Dog Running) */
+.walking-animal.state-chasing .svg-leg {
+    animation: none;
+}
+.walking-animal.state-chasing .animal-svg {
+    animation: none;
+}
+
+@keyframes dogChaseFrontLeg {
+    0%, 100% { d: path('M 65 65 Q 80 65 88 72'); }
+    50%      { d: path('M 65 65 Q 55 75 48 82'); }
+}
+@keyframes dogChaseFrontLegBack {
+    0%, 100% { d: path('M 60 65 Q 75 67 82 75'); }
+    50%      { d: path('M 60 65 Q 50 77 44 84'); }
+}
+@keyframes dogChaseBackLeg {
+    0%, 100% { d: path('M 35 65 Q 20 70 12 75'); }
+    50%      { d: path('M 35 65 Q 45 75 52 82'); }
+}
+@keyframes dogChaseBackLegFront {
+    0%, 100% { d: path('M 40 65 Q 25 72 17 77'); }
+    50%      { d: path('M 40 65 Q 50 77 57 84'); }
+}
+@keyframes dogChaseTail {
+    0%, 100% { d: path('M 35 55 Q 18 50, 10 40'); }
+    50%      { d: path('M 35 55 Q 22 30, 25 15'); }
+}
+@keyframes dogChaseBodyBounce {
+    0%   { transform: translateY(0px) rotate(5deg); }
+    50%  { transform: translateY(-8px) rotate(-5deg); }
+    100% { transform: translateY(0px) rotate(5deg); }
+}
+
+.walking-animal.state-chasing #dog-svg .svg-leg.front-leg      { animation: dogChaseFrontLeg var(--dog-chase-duration, 0.35s) infinite linear; }
+.walking-animal.state-chasing #dog-svg .svg-leg.back-leg-front { animation: dogChaseBackLegFront var(--dog-chase-duration, 0.35s) infinite linear; }
+.walking-animal.state-chasing #dog-svg .svg-leg.back-leg       { animation: dogChaseBackLeg var(--dog-chase-duration, 0.35s) infinite linear; animation-delay: var(--dog-chase-delay, -0.175s); }
+.walking-animal.state-chasing #dog-svg .svg-leg.front-leg-back { animation: dogChaseFrontLegBack var(--dog-chase-duration, 0.35s) infinite linear; animation-delay: var(--dog-chase-delay, -0.175s); }
+.walking-animal.state-chasing #dog-svg .svg-tail { animation: dogChaseTail var(--dog-chase-duration, 0.35s) infinite ease-in-out; }
+.walking-animal.state-chasing #dog-svg { animation: dogChaseBodyBounce var(--dog-chase-duration, 0.35s) infinite ease-in-out; }
+
+/* Post-Chase Idle State */
+.walking-animal.state-post-chase-idle .svg-leg { animation: none; }
+.walking-animal.state-post-chase-idle .svg-tail { animation: none; }
+.walking-animal.state-post-chase-idle #dog-svg { animation: none; }
+
+.animal-svg.hidden { display: none; }

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Tab</title>
+    <!-- Use Inter font to match modern clean look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-ambient"></div>
+
+    <header class="top-bar">
+        <div class="weather-widget">
+            <span class="weather-icon">🌤️</span>
+            <span class="weather-temp">14°C</span>
+        </div>
+    </header>
+
+    <main class="center-content">
+        <div class="time-container">
+            <h1 id="clock" class="clock-text">--:--</h1>
+            <p id="greeting" class="greeting-text">Good morning</p>
+        </div>
+
+        <div class="search-container">
+            <form id="search-form" class="search-bar">
+                <div class="search-icon">
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </div>
+                <input type="text" id="search-input" data-i18n-placeholder="search_placeholder" placeholder="Search the web" autocomplete="off" autofocus>
+            </form>
+        </div>
+
+        <div class="shortcuts-container" id="shortcuts">
+            <!-- Dynamically populated -->
+        </div>
+    </main>
+
+    <footer class="bottom-bar">
+        <button id="settings-btn" class="icon-btn" aria-label="Settings">
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+        </button>
+    </footer>
+
+    <!-- Settings Panel & Overlay -->
+    <div id="settings-overlay" class="settings-overlay"></div>
+    <aside id="settings-panel" class="settings-panel">
+        <div class="settings-header">
+            <h2 data-i18n="settings_title">Settings</h2>
+            <button id="close-settings" class="icon-btn" aria-label="Close settings">
+                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        <div class="settings-content">
+            <div class="setting-group">
+                <label for="name-input" data-i18n="label_name">Your Name</label>
+                <input type="text" id="name-input" class="settings-input" data-i18n-placeholder="placeholder_name_input" placeholder="e.g. Your Name">
+            </div>
+            <div class="setting-group">
+                <label class="toggle-label">
+                    <span data-i18n="label_glow">Ambient Glow Background</span>
+                    <input type="checkbox" id="toggle-glow" checked>
+                    <span class="toggle-switch"></span>
+                </label>
+            </div>
+            <div class="setting-group">
+                <label class="toggle-label">
+                    <span data-i18n="label_weather">Show Weather</span>
+                    <input type="checkbox" id="toggle-weather" checked>
+                    <span class="toggle-switch"></span>
+                </label>
+            </div>
+            <div class="setting-group">
+                <label for="animal-select" data-i18n="label_animal">Active Companion</label>
+                <select id="animal-select" class="settings-input">
+                    <option value="none" data-i18n="opt_animal_none">None</option>
+                    <option value="cat" data-i18n="opt_animal_cat">Black Cat</option>
+                    <option value="fox" data-i18n="opt_animal_fox">Fox</option>
+                    <option value="dog" data-i18n="opt_animal_dog">Dog</option>
+                </select>
+            </div>
+            <div class="setting-group">
+                <label for="lang-select" data-i18n="label_lang">Language</label>
+                <select id="lang-select" class="settings-input">
+                    <option value="en">English</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                    <option value="de">Deutsch</option>
+                </select>
+            </div>
+            <div class="setting-group">
+                <label for="weather-city-input" data-i18n="label_city">Weather City</label>
+                <input type="text" id="weather-city-input" class="settings-input" data-i18n-placeholder="placeholder_city_input" placeholder="e.g. New York">
+            </div>
+            <div class="setting-group">
+                <label for="weather-unit-select" data-i18n="label_unit">Temperature Unit</label>
+                <select id="weather-unit-select" class="settings-input">
+                    <option value="C">Celsius (°C)</option>
+                    <option value="F">Fahrenheit (°F)</option>
+                </select>
+            </div>
+            <div class="setting-group shortcuts-manager-group">
+                <label data-i18n="label_shortcuts">Quick Shortcuts</label>
+                <div id="settings-shortcuts-list" class="settings-shortcuts-list">
+                    <!-- Populated dynamically -->
+                </div>
+                <div class="add-shortcut-form">
+                    <h3 class="settings-subtitle" data-i18n="add_shortcut_title">Add New Shortcut</h3>
+                    <input type="text" id="new-shortcut-name" class="settings-input" data-i18n-placeholder="placeholder_sc_name" placeholder="Name">
+                    <input type="text" id="new-shortcut-url" class="settings-input" data-i18n-placeholder="placeholder_sc_url" placeholder="URL (https://...)">
+                    <button type="button" id="add-shortcut-btn" class="settings-btn" data-i18n="btn_add">Add</button>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <div id="mouse" class="mouse hidden"></div>
+
+    <div id="animal" class="walking-animal">
+        <svg id="cat-svg" class="animal-svg" viewBox="0 0 100 100" width="80" height="80">
+            <!-- Tail -->
+            <path class="svg-tail" d="M 35 60 C 15 50, 15 20, 25 15" fill="none" stroke="#050505" stroke-width="8" stroke-linecap="round" />
+            <!-- Back Legs -->
+            <path class="svg-leg back-leg" d="M 35 65 Q 28 75 35 85" fill="none" stroke="#111" stroke-width="8" stroke-linecap="round" />
+            <path class="svg-leg front-leg-back" d="M 60 65 Q 65 75 60 85" fill="none" stroke="#111" stroke-width="8" stroke-linecap="round" />
+            <!-- Body -->
+            <path class="svg-body" d="M 40 70 L 65 70 C 80 70, 80 45, 65 45 L 40 45 C 25 45, 25 70, 40 70 Z" fill="#050505" />
+            <!-- Front Legs -->
+            <path class="svg-leg front-leg" d="M 65 65 Q 70 75 65 85" fill="none" stroke="#050505" stroke-width="8" stroke-linecap="round" />
+            <path class="svg-leg back-leg-front" d="M 40 65 Q 33 75 40 85" fill="none" stroke="#050505" stroke-width="8" stroke-linecap="round" />
+            <!-- Head Group -->
+            <g class="svg-head-group">
+                <!-- Ears -->
+                <path class="svg-ear left" d="M 68 38 L 62 18 L 76 37 Z" fill="#050505" stroke="#050505" stroke-width="1" stroke-linejoin="round" />
+                <path class="svg-ear right" d="M 74 37 L 88 18 L 82 38 Z" fill="#050505" stroke="#050505" stroke-width="1" stroke-linejoin="round" />
+                <!-- Head -->
+                <circle class="svg-head" cx="75" cy="45" r="14" fill="#050505" />
+                <!-- Eyes -->
+                <circle class="svg-eye left" cx="69" cy="42" r="5.0" fill="#f1c40f" />
+                <ellipse class="svg-pupil left" cx="70" cy="42" rx="1.6" ry="3.5" fill="#000" />
+                <circle class="svg-eye right" cx="81" cy="42" r="5.0" fill="#f1c40f" />
+                <ellipse class="svg-pupil right" cx="80" cy="42" rx="1.6" ry="3.5" fill="#000" />
+            </g>
+        </svg>
+
+        <svg id="fox-svg" class="animal-svg hidden" viewBox="0 0 100 100" width="80" height="80">
+            <defs>
+                <linearGradient id="kit-global-grad" gradientUnits="userSpaceOnUse" x1="50" y1="30" x2="50" y2="85">
+                    <stop offset="0%" stop-color="#ffb703" />
+                    <stop offset="40%" stop-color="#fb8500" />
+                    <stop offset="100%" stop-color="#d90429" />
+                </linearGradient>
+                <linearGradient id="kit-tail-grad" gradientUnits="userSpaceOnUse" x1="35" y1="60" x2="20" y2="15">
+                    <stop offset="0%" stop-color="#d90429" />
+                    <stop offset="60%" stop-color="#fb8500" />
+                    <stop offset="100%" stop-color="#ffb703" />
+                </linearGradient>
+                <linearGradient id="kit-snout-grad" gradientUnits="userSpaceOnUse" x1="50" y1="30" x2="50" y2="85">
+                    <stop offset="0%" stop-color="#fffbeb" />
+                    <stop offset="100%" stop-color="#ffe8cc" />
+                </linearGradient>
+                <linearGradient id="kit-eye-grad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#3c096c" />
+                    <stop offset="100%" stop-color="#9d4edd" />
+                </linearGradient>
+            </defs>
+
+            <!-- Tail -->
+            <path class="svg-tail" d="M 35 67 C 10 57, 5 22, 25 22" fill="none" stroke="url(#kit-tail-grad)" stroke-width="14" stroke-linecap="round" />
+            <!-- Back Legs -->
+            <path class="svg-leg back-leg" d="M 35 72 Q 28 78.5 35 85" fill="none" stroke="url(#kit-global-grad)" stroke-width="8" stroke-linecap="round" />
+            <path class="svg-leg front-leg-back" d="M 60 72 Q 65 78.5 60 85" fill="none" stroke="url(#kit-global-grad)" stroke-width="8" stroke-linecap="round" />
+            <!-- Body -->
+            <path class="svg-body" d="M 40 77 L 65 77 C 80 77, 80 52, 65 52 L 40 52 C 25 52, 25 77, 40 77 Z" fill="url(#kit-global-grad)" />
+            <!-- Front Legs -->
+            <path class="svg-leg front-leg" d="M 65 72 Q 70 78.5 65 85" fill="none" stroke="url(#kit-global-grad)" stroke-width="8" stroke-linecap="round" />
+            <path class="svg-leg back-leg-front" d="M 40 72 Q 33 78.5 40 85" fill="none" stroke="url(#kit-global-grad)" stroke-width="8" stroke-linecap="round" />
+            <!-- Head Group -->
+            <g class="svg-head-group">
+                <!-- Ears -->
+                <path class="svg-ear left" d="M 68 45 L 64 27 L 76 44 Z" fill="url(#kit-global-grad)" />
+                <path class="svg-ear right" d="M 74 44 L 86 27 L 82 45 Z" fill="url(#kit-global-grad)" />
+                <!-- Head -->
+                <circle class="svg-head" cx="75" cy="52" r="14" fill="url(#kit-global-grad)" />
+                <!-- Snout -->
+                <ellipse cx="80" cy="56.5" rx="12" ry="7.5" fill="url(#kit-global-grad)" />
+                <circle cx="91.5" cy="53.5" r="2.2" fill="#111" />
+                
+                <!-- Eyes scaled down via grouping -->
+                <g style="transform-origin: 69px 48px; transform: scale(0.65);">
+                    <circle class="svg-eye left" cx="69" cy="48" r="5.0" fill="url(#kit-eye-grad)" />
+                    <ellipse class="svg-pupil left" cx="68" cy="46.5" rx="1.3" ry="1.3" fill="#fff" />
+                </g>
+                <g style="transform-origin: 81px 48px; transform: scale(0.65);">
+                    <circle class="svg-eye right" cx="81" cy="48" r="5.0" fill="url(#kit-eye-grad)" />
+                    <ellipse class="svg-pupil right" cx="80" cy="46.5" rx="1.3" ry="1.3" fill="#fff" />
+                </g>
+            </g>
+        </svg>
+
+        <svg id="dog-svg" class="animal-svg hidden" viewBox="0 0 100 100" width="80" height="80">
+            <!-- Tail -->
+            <path class="svg-tail dog-tail" d="M 35 55 Q 20 40, 15 25" fill="none" stroke="#8B4513" stroke-width="8" stroke-linecap="round" />
+            <!-- Back Legs -->
+            <path class="svg-leg back-leg" d="M 35 65 Q 28 75 35 85" fill="none" stroke="#5c2e0b" stroke-width="8" stroke-linecap="round" />
+            <path class="svg-leg front-leg-back" d="M 60 65 Q 65 75 60 85" fill="none" stroke="#5c2e0b" stroke-width="8" stroke-linecap="round" />
+            <!-- Body -->
+            <path class="svg-body" d="M 40 70 L 65 70 C 80 70, 80 45, 65 45 L 40 45 C 25 45, 25 70, 40 70 Z" fill="#8B4513" />
+            <!-- Front Legs -->
+            <path class="svg-leg front-leg" d="M 65 65 Q 70 75 65 85" fill="none" stroke="#8B4513" stroke-width="8" stroke-linecap="round" />
+            <path class="svg-leg back-leg-front" d="M 40 65 Q 33 75 40 85" fill="none" stroke="#8B4513" stroke-width="8" stroke-linecap="round" />
+            <!-- Head Group -->
+            <g class="svg-head-group">
+                <!-- Ears -->
+                <path class="svg-ear left dog-ear" d="M 65 35 C 55 40, 55 55, 65 60 Z" fill="#5c2e0b" />
+                <path class="svg-ear right dog-ear" d="M 85 35 C 95 40, 95 55, 85 60 Z" fill="#5c2e0b" />
+                <!-- Head -->
+                <circle class="svg-head" cx="75" cy="45" r="14" fill="#8B4513" />
+                <!-- Snout -->
+                <ellipse cx="80" cy="50" rx="8" ry="6" fill="#D2B48C" />
+                <circle cx="86" cy="48" r="2.5" fill="#111" />
+                <!-- Eyes -->
+                <circle class="svg-eye left" cx="69" cy="41" r="5.0" fill="#fff" />
+                <ellipse class="svg-pupil left" cx="70" cy="41" rx="2.5" ry="2.5" fill="#000" />
+                <circle class="svg-eye right" cx="81" cy="41" r="5.0" fill="#fff" />
+                <ellipse class="svg-pupil right" cx="80" cy="41" rx="2.5" ry="2.5" fill="#000" />
+            </g>
+        </svg>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
